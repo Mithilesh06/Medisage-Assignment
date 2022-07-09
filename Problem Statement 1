@@ -1,0 +1,26 @@
+Problem Statement
+
+Write an SQL query that selects the team_id, team_name and num_points of each team in the tournament after all described matches.
+
+Explanation
+
+Tables - Matches and Teams
+I have written 2 queries, one for host team and one for guest team
+hence used UNION ALL function so I can get num_points in a single table for both host and guest team
+and then teams left join matches because one team has not played any match in tournament
+
+Solution
+
+select t.team_id,t.team_name,ifnull(sum(a.points),0) as "num_points"
+from teams t left join (select host_team as "team",(case when host_goals > guest_goals then "3" when host_goals < guest_goals then "0"
+when host_goals = guest_goals then "1" end) as "points"
+from matches m
+UNION ALL
+select guest_team as "team",(case when host_goals < guest_goals then "3" when host_goals > guest_goals then "0"
+when host_goals = guest_goals then "1" end) as "points"
+from matches m)a on a.team = t.team_id
+group by 1
+order by 3 desc
+
+Result Screenshot
+ 
