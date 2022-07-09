@@ -1,1 +1,22 @@
+Problem Statement
 
+Write an SQL query that selects the team_id, team_name and num_points of each team in the tournament after all described matches.
+
+Explanation
+
+Tables - project and employee
+Firstly wrote query for max_exp in each project and then used as a subbuery
+then compared the max_exp of each project to exp of employee and as a result got the employee with max_exp in project wise
+
+Solution
+
+select b.project_id,b.employee_id
+from (select p.project_id,p.employee_id,e.experience_years,a.max_exp
+from project p inner join employee e on p.employee_id = e.employee_id
+left join (select p.project_id,max(e.experience_years) as "max_exp"
+from project p inner join employee e on p.employee_id = e.employee_id
+group by 1)a on a.project_id = p.project_id)b
+where b.experience_years = b.max_exp
+
+Result Screenshot
+Attached a Image in the Main file (problem statement 2 SS)
