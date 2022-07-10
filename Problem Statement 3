@@ -1,0 +1,23 @@
+Problem Statement
+
+Write an SQL query to find the names of all the activities with neither the maximum nor the minimum number of participants.
+
+Explanation
+
+Tables - activities and friends
+I have written 2 queries, first to find max participants in a activity and
+second to find min participants in a activity and excluding such activities that have
+max and min participants.
+
+Solution
+
+select a.activity
+from (select f.activity,count(f.id) as "participants"
+from friends f group by 1)a where (select max(participants)
+from (select f.activity,count(f.id) as "participants"
+from friends f group by 1)a) > participants and
+(select min(participants) from (select f.activity,count(f.id) as "participants"
+from friends f group by 1)a) < participants
+
+Result Screenshot
+Attached a Image in the Main file (problem statement 3 SS)
